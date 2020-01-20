@@ -1,48 +1,33 @@
 <div class="mesgs">
-        <div class="msg_history">
-          <div class="incoming_msg">
-            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            <div class="received_msg">
-              <div class="received_withd_msg">
-                <p>Test which is a new approach to have all
-                  solutions</p>
-                <span class="time_date"> 11:01 AM    |    June 9</span></div>
-            </div>
-          </div>
-          <div class="outgoing_msg">
-            <div class="sent_msg">
-              <p>Test which is a new approach to have all
-                solutions</p>
-              <span class="time_date"> 11:01 AM    |    June 9</span> </div>
-          </div>
-          <div class="incoming_msg">
-            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            <div class="received_msg">
-              <div class="received_withd_msg">
-                <p>Test, which is a new approach to have</p>
-                <span class="time_date"> 11:01 AM    |    Yesterday</span></div>
-            </div>
-          </div>
-          <div class="outgoing_msg">
-            <div class="sent_msg">
-              <p>National Institute of Applied Science And Technology, Tunis</p>
-              <span class="time_date"> 11:01 AM    |    Today</span> </div>
-          </div>
-          <div class="incoming_msg">
-            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            <div class="received_msg">
-              <div class="received_withd_msg">
-                <p>We work directly with our designers and suppliers,
-                  and sell direct to you, which means quality, exclusive
-                  products, at a price anyone can afford.</p>
-                <span class="time_date"> 11:01 AM    |    Today</span></div>
-            </div>
-          </div>
+  <div class="msg_history">
+    <div *ngFor="let msg of incoming_messages">
+      
+      <div class="outgoing_msg" *ngIf="msg.source == currentUser.sn[0] && msg.receiver == selectedUser.sn[0]">
+        <div class="sent_msg">
+          <p>{{msg.data}}</p>
+          <span class="time_date"> {{ msg.time | date:'shortTime' }}     |    {{ msg.time | date }}</span> 
         </div>
-        <div class="type_msg">
-          <div class="input_msg_write">
-            <input type="text" class="write_msg" placeholder="Type a message" />
-            <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+      </div>
+
+      <div class="incoming_msg" *ngIf="msg.source == selectedUser.sn[0] && msg.receiver == currentUser.sn[0]">
+        <div>
+          <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+          <div class="received_msg">
+            <div class="received_withd_msg">
+              <p>{{msg.data}}</p>
+              <span class="time_date"> {{ msg.time | date:'shortTime' }}     |    {{ msg.time | date }} </span></div>
           </div>
         </div>
       </div>
+    
+    </div>
+  </div>
+  <div class="type_msg">
+    <form (ngSubmit)="send_message()">
+      <div class="input_msg_write">
+        <input type="text" class="write_msg" placeholder="Type a message" name="msg" [(ngModel)]='msg' />
+        <button class="msg_send_btn" type="button" (click)="send_message()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+      </div>
+    </form>
+  </div>
+</div>

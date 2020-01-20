@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'messenger', component: MessengingComponent  },
 
   // {path: '', redirectTo: 'messenger', pathMatch: 'full'},
-  {path: '**', redirectTo: 'messenger'}
+  {path: '**', redirectTo: 'login'}
 
 ];
 

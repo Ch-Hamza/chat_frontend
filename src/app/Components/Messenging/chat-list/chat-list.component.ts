@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
+import { EventEmitter } from "@angular/core";
+import { LdapService } from 'src/app/services/ldap.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -7,11 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatListComponent implements OnInit {
 
-  chatList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  userList;
+  currentUser;
+  loaded = false;
+  @Output() selected = new EventEmitter();
 
-  constructor() { }
+  constructor(private ldapService: LdapService) { }
 
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('ldap_user'))['attributes'];
+    //console.log(this.currentUser);
+    this.ldapService.find_all().subscribe(data => {
+      //console.log(data)
+      this.userList = data;
+      this.loaded = true;
+    })
+  }
+
+  send(user) {
+    this.selected.emit(user);
   }
 
 }
